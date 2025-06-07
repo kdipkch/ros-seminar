@@ -46,6 +46,7 @@ void soundCallback(const std_msgs::Byte& sound_msg)
 
   uint16_t note[8]     = {0, 0};
   uint8_t  duration[8] = {0, 0};
+  uint8_t  note_num    = 8;
 
   switch (sound_msg.data)
   {
@@ -98,11 +99,13 @@ void soundCallback(const std_msgs::Byte& sound_msg)
      break;
 
     case 5:
-      sound_name_msg.data = NONE;  
+      sound_name_msg.data = NONE;
+      note_num = 0;
      break;
 
     case 6:
-      sound_name_msg.data = NONE;  
+      sound_name_msg.data = NONE;
+      note_num = 0;
      break;
 
     default:
@@ -119,7 +122,8 @@ void soundCallback(const std_msgs::Byte& sound_msg)
   }
 
   sound_info_pub.publish(&sound_name_msg);
-  melody(note, 8, duration);
+  if (note_num > 0)
+    melody(note, note_num, duration);
 }
 
 
